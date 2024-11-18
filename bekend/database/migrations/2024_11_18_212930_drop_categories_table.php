@@ -4,21 +4,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAudioFilesTable extends Migration
+class DropCategoriesTable extends Migration
 {
-    /**
+     /**
      * Run the migrations.
      *
      * @return void
      */
     public function up()
     {
-        Schema::create('audio_files', function (Blueprint $table) {
-            $table->id();
-            $table->string('naziv');
-            $table->string('putanja');
-            $table->timestamps();
-        });
+        Schema::dropIfExists('categories'); 
     }
 
     /**
@@ -28,6 +23,10 @@ class CreateAudioFilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('audio_files');
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('naziv'); 
+            $table->timestamps();
+        });
     }
 }
