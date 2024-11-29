@@ -6,6 +6,8 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\LessonController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TestMail;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +27,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail']);
+
+Route::get('/reset-password/{token}', function ($token) {
+    return view('reset-password', ['token' => $token]);
+})->name('password.reset');
+
+Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+
+
+Route::get('/test-email', function () {
+    Mail::to('boskovicnikola99@gmail.com')->send(new TestMail());
+    return 'Test email sent successfully!';
+});
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/lessons', [LessonController::class, 'index']);
