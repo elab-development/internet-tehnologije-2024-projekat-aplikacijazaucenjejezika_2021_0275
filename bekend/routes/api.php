@@ -47,6 +47,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/lessons', [LessonController::class, 'store']);
     Route::put('/lessons/{id}', [LessonController::class, 'update']);
     Route::delete('/lessons/{id}', [LessonController::class, 'destroy']);
+    Route::post('/lessons/{lessonId}/upload', [LessonController::class, 'uploadFile']);
+
 });
 
 Route::middleware('auth:sanctum')->group(function () {

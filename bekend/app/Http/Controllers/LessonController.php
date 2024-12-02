@@ -90,5 +90,26 @@ class LessonController extends Controller
 
         return response()->json(['message' => 'Lesson deleted successfully.']);
     }
+
+    public function uploadFile(Request $request, $lessonId)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:jpg,jpeg,png,gif,pdf,doc,docx|max:2048', // Maksimalna veličina: 2MB
+        ]);
+
+        $lesson = \App\Models\Lesson::findOrFail($lessonId);
+
+        $path = $request->file('file')->store('uploads/lessons/' . $lesson->id, 'public');
+
+        $lesson->files()->create([
+            'name' => $request->file('file')->getClientOriginalName(),
+            'path' => $path,
+        ]);
+
+        return response()->json([
+            'message' => 'File uploaded successfully',
+            'path' => $path,
+        ]);
+    }
 }
 

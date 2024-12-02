@@ -22,19 +22,20 @@ class Lesson extends Model
         'slike' => 'array', // Automatski dekodira JSON u array
     ];
 
-    /**
-     * Relacija sa modelom `Language` (Jezik).
-     */
+
     public function jezik()
     {
         return $this->belongsTo(Language::class, 'language_id');
     }
 
-    /**
-     * Relacija sa modelom `AudioFile` (Audio fajlovi).
-     */
+
     public function audioFajlovi()
     {
         return $this->hasMany(AudioFile::class, 'lesson_id');
+    }
+
+    public function files()
+    {
+        return $this->hasMany(File::class);
     }
 }
