@@ -10,13 +10,25 @@ use Illuminate\Support\Facades\Validator;
 
 class LessonController extends Controller
 {
-    /**
-     * Prikaz svih lekcija
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $lessons = Lesson::with('jezik', 'audioFajlovi')->get();
-        return LessonResource::collection($lessons);
+        $query = Lesson::query();
+    
+        if ($request->has('naziv')) {
+            $query->where('naziv', 'like', '%' . $request->naziv . '%'); 
+        }
+    
+        if ($request->has('language_id')) {
+            $query->where('language_id', $request->language_id); 
+        }
+    
+        if ($request->has('predjena')) {
+            $query->where('predjena', $request->predjena); 
+        }
+    
+        $lessons = $query->paginate($request->get('per_page', 10)); 
+    
+        return response()->json($lessons);
     }
 
     /**
