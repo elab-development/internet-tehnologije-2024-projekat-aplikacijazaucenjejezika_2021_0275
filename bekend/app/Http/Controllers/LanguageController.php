@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\LanguageResource;
 use App\Models\Language;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 
 class LanguageController extends Controller
@@ -13,10 +14,15 @@ class LanguageController extends Controller
     /**
      * Prikaz svih jezika.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $languages = Language::all();
-        return LanguageResource::collection($languages);
+        $cacheKey = 'languages_list';
+
+        $languages = Cache::remember($cacheKey, 60 * 30, function () {
+            return Language::all();
+        });
+
+        return response()->json($languages);
     }
 
     /**
@@ -68,6 +74,8 @@ class LanguageController extends Controller
 
         $language->update($request->all());
 
+        Cache::forget('languages_list');
+
         return response()->json([
             'message' => 'Language updated successfully.',
             'language' => new LanguageResource($language),
@@ -81,6 +89,8 @@ class LanguageController extends Controller
     {
         $language = Language::findOrFail($id);
         $language->delete();
+
+        Cache::forget('languages_list');
 
         return response()->json(['message' => 'Language deleted successfully.']);
     }
