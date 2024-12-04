@@ -43,7 +43,7 @@ Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
     Route::put('/lessons/{id}', [LessonController::class, 'update']);
     Route::delete('/lessons/{id}', [LessonController::class, 'destroy']);
     Route::post('/lessons/{lessonId}/upload', [LessonController::class, 'uploadFile']);
-
+    Route::get('/lessons/{lessonId}/export-pdf', [LessonController::class, 'exportToPDF']);
 });
 
 Route::middleware(['auth:sanctum', 'role:admin', 'role:user'])->group(function () {

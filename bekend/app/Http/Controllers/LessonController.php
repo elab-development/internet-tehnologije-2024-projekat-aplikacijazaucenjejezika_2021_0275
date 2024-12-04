@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LessonResource;
 use App\Models\Lesson;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -122,6 +123,15 @@ class LessonController extends Controller
             'message' => 'File uploaded successfully',
             'path' => $path,
         ]);
+    }
+
+    public function exportToPDF($lessonId)
+    {
+        $lesson = \App\Models\Lesson::findOrFail($lessonId);
+
+        $pdf = Pdf::loadView('pdf.lesson', compact('lesson'));
+
+        return $pdf->download('lesson-' . $lesson->id . '.pdf');
     }
 }
 
