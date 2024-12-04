@@ -4,6 +4,7 @@ use App\Http\Controllers\AudioFileController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\TranslationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
@@ -57,4 +58,7 @@ Route::middleware(['auth:sanctum', 'role:admin', 'role:user'])->group(function (
 Route::middleware('auth:sanctum')->group(function () {
     Route::resource('audio-files', AudioFileController::class);
 });
+
+Route::post('/translate', [TranslationController::class, 'translate']);
+
 
