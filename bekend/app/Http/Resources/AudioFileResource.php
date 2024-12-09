@@ -18,7 +18,10 @@ class AudioFileResource extends JsonResource
             'id' => $this->id,
             'naziv' => $this->naziv,
             'putanja' => $this->putanja,
-            'lekcija' => new LessonResource($this->lekcija), 
+            'lekcija' => [
+                'id' => $this->lekcija->id,
+                'naziv' => $this->lekcija->naziv,
+            ], 
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

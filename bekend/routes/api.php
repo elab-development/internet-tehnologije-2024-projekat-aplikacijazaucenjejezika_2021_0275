@@ -47,7 +47,7 @@ Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
     Route::get('/lessons/{lessonId}/export-pdf', [LessonController::class, 'exportToPDF']);
 });
 
-Route::middleware(['auth:sanctum', 'role:admin', 'role:user'])->group(function () {
+Route::middleware(['auth:sanctum', 'role:admin,user'])->group(function () {
     Route::get('/languages', [LanguageController::class, 'index']);
     Route::get('/languages/{id}', [LanguageController::class, 'show']);
     Route::post('/languages', [LanguageController::class, 'store']);

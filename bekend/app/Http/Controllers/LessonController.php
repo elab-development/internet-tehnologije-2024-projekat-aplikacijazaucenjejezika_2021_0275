@@ -24,7 +24,7 @@ class LessonController extends Controller
         }
     
         if ($request->has('predjena')) {
-            $query->where('predjena', $request->predjena); 
+            $query->where('predjena', filter_var($request->predjena, FILTER_VALIDATE_BOOLEAN)); 
         }
     
         $lessons = $query->paginate($request->get('per_page', 10)); 
