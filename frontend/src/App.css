@@ -28,6 +28,61 @@
   color: #61dafb;
 }
 
+.form-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.form-container h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.form-content input {
+  width: 100%; /* Širina inputa da popuni ceo prostor */
+  margin-bottom: 15px; /* Razmak između inputa */
+  padding: 10px; /* Udobnost za unos */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box; /* Sprečava izlazak inputa van okvira */
+}
+
+.form-content {
+  display: flex;
+  flex-direction: column; /* Vertikalno ređanje inputa */
+  gap: 10px; /* Razmak između elemenata */
+}
+
+.form-content input:focus {
+  outline: none;
+  border-color: #61dafb;
+  box-shadow: 0 0 5px rgba(97, 218, 251, 0.5);
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 10px;
+  background-color: #61dafb;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+  background-color: #4fa3d1;
+}
+
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

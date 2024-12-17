@@ -6,9 +6,9 @@ const Home = () => {
     <div className="home-container">
       <header className="hero-section">
         <div className="hero-text">
-          <h1 className="hero-title">Uči jezik uz interaktivne lekcije</h1>
-          <p className="hero-subtitle">Iskoristi različite načine učenja, audio materijale i dinamične kvizove kako bi usavršio svoje znanje.</p>
-          <button className="cta-button">Počni odmah</button>
+          <h1 className="hero-title">Učite jezik uz interaktivne lekcije</h1>
+          <p className="hero-subtitle">Iskoristite različite načine učenja, audio materijale i dinamične kvizove kako bi usavršili svoje znanje.</p>
+          <button className="cta-button">Počnite odmah</button>
         </div>
       </header>
 
