@@ -38,11 +38,11 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="duolingo-section">
+      {/* <section className="duolingo-section">
         <h2 className="section-title">Inspiriši se poznatim aplikacijama</h2>
         <p>Za primer može poslužiti Duolingo, popularna aplikacija za učenje jezika koja kombinuje audio, vizuelne elemente i interaktivne zadatke.</p>
         <img className="inspiration-image" src="https://via.placeholder.com/300x200" alt="Duolingo inspiracija" />
-      </section>
+      </section> */}
 
       <footer className="footer-section">
         <p>© 2024 Aplikacija za učenje jezika</p>

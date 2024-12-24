@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\TranslationController;
+use App\Http\Controllers\UserLanguageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
@@ -54,6 +55,11 @@ Route::middleware(['auth:sanctum', 'role:admin,user'])->group(function () {
     Route::put('/languages/{id}', [LanguageController::class, 'update']);
     Route::delete('/languages/{id}', [LanguageController::class, 'destroy']);
 });
+
+Route::get('user-languages', [UserLanguageController::class, 'index']);
+Route::post('user-languages', [UserLanguageController::class, 'store']);
+Route::get('user-languages/{id}', [UserLanguageController::class, 'show']);
+Route::delete('user-languages/{id}', [UserLanguageController::class, 'destroy']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::resource('audio-files', AudioFileController::class);

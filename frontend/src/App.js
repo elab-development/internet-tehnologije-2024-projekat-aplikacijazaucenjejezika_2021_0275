@@ -23,6 +23,7 @@ function App() {
 
   return (
     <Router>
+      
       <Navbar isLoggedIn={!!token} handleLogout={handleLogout} />
       <Routes>
         <Route path="/login" element={<Login setToken={setToken} />} />
