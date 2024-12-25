@@ -49,7 +49,7 @@ class LessonController extends Controller
         $validator = Validator::make($request->all(), [
             'naziv' => 'required|string|max:255',
             'tekst' => 'nullable|string',
-            'predjena' => 'required|boolean',
+            'predjena' => 'boolean',
             'language_id' => 'required|exists:languages,id',
             'slike' => 'nullable|array',
         ]);
@@ -76,7 +76,7 @@ class LessonController extends Controller
         $validator = Validator::make($request->all(), [
             'naziv' => 'required|string|max:255',
             'tekst' => 'nullable|string',
-            'predjena' => 'required|boolean',
+            'predjena' => 'boolean',
             'language_id' => 'required|exists:languages,id',
             'slike' => 'nullable|array',
         ]);
