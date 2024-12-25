@@ -38,7 +38,7 @@ Route::get('/reset-password/{token}', function ($token) {
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
 
-Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
+Route::middleware(['auth:sanctum', 'role:admin,profesor'])->group(function () {
     Route::get('/lessons', [LessonController::class, 'index']);
     Route::get('/lessons/{id}', [LessonController::class, 'show']);
     Route::post('/lessons', [LessonController::class, 'store']);
@@ -48,9 +48,10 @@ Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
     Route::get('/lessons/{lessonId}/export-pdf', [LessonController::class, 'exportToPDF']);
 });
 
-Route::middleware(['auth:sanctum', 'role:admin,user'])->group(function () {
+Route::middleware(['auth:sanctum', 'role:admin,user,profesor'])->group(function () {
     Route::get('/languages', [LanguageController::class, 'index']);
     Route::get('/languages/{id}', [LanguageController::class, 'show']);
+    Route::post('/languages/add', [LanguageController::class, 'addLanguage']);
     Route::post('/languages', [LanguageController::class, 'store']);
     Route::put('/languages/{id}', [LanguageController::class, 'update']);
     Route::delete('/languages/{id}', [LanguageController::class, 'destroy']);

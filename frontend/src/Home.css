@@ -6,10 +6,10 @@ body {
   }
   
   .home-container {
-    width: 100%;
-    height: auto;
-    overflow-x: hidden;
-  }
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Visina stranice pokriva ceo ekran */
+}
   
   /* Hero section */
   .hero-section {
@@ -19,6 +19,7 @@ body {
     text-align: center;
     position: relative;
     overflow: hidden;
+    flex: 1; /* Ovo osigurava da hero sekcija zauzme sav dostupan prostor između headera i footera */
   }
   
   .hero-section::before {
@@ -180,5 +181,6 @@ body {
     padding: 20px;
     text-align: center;
     font-size: 0.9rem;
-  }
+    margin-top: auto; /* Footer se pomera na dno ako nema dovoljno sadržaja */
+}
   

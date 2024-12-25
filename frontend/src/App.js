@@ -6,6 +6,8 @@ import Register from './Register';
 import Home from './Home';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import LanguagesPage from './LanguagesPage';
+import LessonsPage from './LessonsPage';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
@@ -28,6 +30,8 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login setToken={setToken} />} />
         <Route path="/register" element={<Register setToken={setToken} />} />
+        <Route path="/languages" element={<LanguagesPage />} />
+        <Route path="/languages/:id/lessons" element={<LessonsPage />} />
         <Route path="/" element={<Home />} />
       </Routes>
       <ToastContainer />

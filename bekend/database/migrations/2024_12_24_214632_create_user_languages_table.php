@@ -13,11 +13,11 @@ class CreateUserLanguagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_languages', function (Blueprint $table) {
+        Schema::create('user_language', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('language_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
+            $table->timestamps(); 
         });
     }
 
@@ -28,6 +28,6 @@ class CreateUserLanguagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_languages');
+        Schema::dropIfExists('user_language');
     }
 }
