@@ -21,9 +21,14 @@ class LessonResource extends JsonResource
             'predjena' => $this->predjena,
             'language' => new LanguageResource($this->jezik), 
             'audio_files' => AudioFileResource::collection($this->audioFajlovi), 
-            'slike' => $this->slike,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'files' => $this->files->map(function ($file) {
+                return [
+                    'name' => $file->name,
+                    'path' => $file->path,
+                ];
+            }),
         ];
     }
 }
