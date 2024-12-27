@@ -10,7 +10,25 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
         <GrLanguage className="App-logo" size={40} color="#61dafb" />
       </div>
       <ul className="nav-links">
-        {!isLoggedIn ? (
+        <li>
+          <Link to="/">Početna</Link>
+        </li>
+
+        {isLoggedIn ? (
+          <>
+            <li>
+              <Link to="/translate">Prevod</Link>
+            </li>
+            <li>
+              <Link to="/languages">Jezici</Link>
+            </li>
+            <li>
+              <button onClick={handleLogout} className="logout-btn">
+                Odjavi se
+              </button>
+            </li>
+          </>
+        ) : (
           <>
             <li>
               <Link to="/login">Login</Link>
@@ -19,12 +37,6 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
               <Link to="/register">Register</Link>
             </li>
           </>
-        ) : (
-          <li>
-            <button onClick={handleLogout} className="logout-btn">
-              Odjavi se
-            </button>
-          </li>
         )}
       </ul>
     </nav>

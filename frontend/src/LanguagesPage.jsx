@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import LanguageCard from "./LanguageCard";
 import "./LanguagesPage.css";
 
 const LanguagesPage = () => {
@@ -86,47 +87,24 @@ const LanguagesPage = () => {
 
     return (
         <div className="languages-container">
-    <h1 className="languages-title">Jezici</h1>
-    <div className="languages-list">
-        {languages.map((lang) => (
-            <div
-                key={lang.id}
-                className="language-card"
-                onClick={() => navigate(`/languages/${lang.id}/lessons`)}
-                style={{ cursor: "pointer" }} // Dodajemo vizuelni pokazatelj da je kartica klikabilna
-            >
-                <div className="language-details">
-                    <h2>{lang.naziv}</h2>
-                    <p>{lang.skraceni_naziv}</p>
-                </div>
-                <div className="language-actions">
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation(); // Sprečava da se onClick na kartici aktivira
-                            setEditingLanguage(lang);
-                            setUpdatedLanguage({
-                                naziv: lang.naziv,
-                                skraceni_naziv: lang.skraceni_naziv,
-                            });
-                        }}
-                        className="languages-button edit-button"
-                    >
-                        Izmeni
-                    </button>
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            handleDeleteLanguage(lang.id);
-                        }}
-                        className="languages-button delete-button"
-                    >
-                        Obriši
-                    </button>
-
-                </div>
-            </div>
-        ))}
-    </div>
+        <h1 className="languages-title">Jezici</h1>
+        <div className="languages-list">
+          {languages.map((lang) => (
+            <LanguageCard
+              key={lang.id}
+              lang={lang}
+              onEdit={(lang) => {
+                setEditingLanguage(lang);
+                setUpdatedLanguage({
+                  naziv: lang.naziv,
+                  skraceni_naziv: lang.skraceni_naziv,
+                });
+              }}
+              onDelete={handleDeleteLanguage}
+              onNavigate={(id) => navigate(`/languages/${id}/lessons`)}
+            />
+          ))}
+        </div>
 
     {editingLanguage ? (
         <form className="add-language-form" onSubmit={handleEditLanguage}>

@@ -39,7 +39,7 @@ const TranslationPage = () => {
 
     return (
         <div className="translation-container">
-            <h1>Prevod Reči</h1>
+            <h1>Prevod reči</h1>
             <form className="translation-form" onSubmit={handleTranslate}>
                 <textarea
                     placeholder="Unesite tekst za prevod..."
@@ -69,7 +69,7 @@ const TranslationPage = () => {
             {error && <p className="error">{error}</p>}
             {translatedText && (
                 <div className="result">
-                    <h2>Rezultat Prevođenja:</h2>
+                    <h2>Rezultat prevođenja:</h2>
                     <p>{translatedText}</p>
                 </div>
             )}
