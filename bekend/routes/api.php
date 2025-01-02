@@ -37,10 +37,10 @@ Route::get('/reset-password/{token}', function ($token) {
 
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
+Route::get('/lessons/{id}', [LessonController::class, 'show'])->middleware('auth:sanctum');
+Route::get('/lessons', [LessonController::class, 'index'])->middleware('auth:sanctum');
 
 Route::middleware(['auth:sanctum', 'role:admin,profesor'])->group(function () {
-    Route::get('/lessons', [LessonController::class, 'index']);
-    Route::get('/lessons/{id}', [LessonController::class, 'show']);
     Route::post('/lessons', [LessonController::class, 'store']);
     Route::put('/lessons/{id}', [LessonController::class, 'update']);
     Route::delete('/lessons/{id}', [LessonController::class, 'destroy']);

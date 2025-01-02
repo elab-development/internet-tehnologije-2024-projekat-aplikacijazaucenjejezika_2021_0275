@@ -22,6 +22,7 @@ const Login = ({ setToken }) => {
     const data = await response.json();
     if (response.ok) {
       localStorage.setItem('token', data.token);
+      localStorage.setItem('role', data.user.role); 
       setToken(data.token);
       toast.success('Uspešno ste se prijavili!');
       navigate('/');

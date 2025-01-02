@@ -8,6 +8,7 @@ const LekcijaPage = () => {
     const [editing, setEditing] = useState(false);
     const [updatedLesson, setUpdatedLesson] = useState({ naziv: "", tekst: "" });
     const [isUploading, setIsUploading] = useState(false);
+    const userRole = localStorage.getItem("role");
 
     useEffect(() => {
         const fetchLesson = async () => {
@@ -22,7 +23,6 @@ const LekcijaPage = () => {
                 setUpdatedLesson({
                     naziv: data.data.naziv,
                     tekst: data.data.tekst,
-                    predjena: data.data.predjena,
                     language_id: data.data.language.id, // Obavezno proverite ovo polje
                 });
             } else {
@@ -116,18 +116,6 @@ const LekcijaPage = () => {
                                 }
                             ></textarea>
                         </div>
-                        <div className="form-group">
-                            <label>
-                                Pređena:
-                                <input
-                                    type="checkbox"
-                                    checked={updatedLesson.predjena}
-                                    onChange={(e) =>
-                                        setUpdatedLesson({ ...updatedLesson, predjena: e.target.checked })
-                                    }
-                                />
-                            </label>
-                        </div>
                         <button type="submit">Sačuvaj</button>
                         <button type="button" onClick={() => setEditing(false)}>
                             Otkaži
@@ -138,7 +126,6 @@ const LekcijaPage = () => {
                 <div>
                     <h1>{lesson.naziv}</h1>
                     <p>{lesson.tekst || "Bez opisa"}</p>
-                    <p>Status: {lesson.predjena ? "Pređena" : "Nije pređena"}</p>
                     <p>Jezik: {lesson.language.naziv}</p>
                     {lesson.slike && lesson.slike.length > 0 && (
                         <div className="slike-container">
@@ -172,8 +159,9 @@ const LekcijaPage = () => {
                         )}
                     </div>
 
-
-                    <button onClick={() => setEditing(true)}>Izmeni</button>
+                    {userRole === "profesor" && (
+                        <div> 
+                            <button onClick={() => setEditing(true)}>Izmeni</button>
                     <div className="upload-container">
                         <h2>Dodaj fajl/sliku</h2>
                         <form onSubmit={handleFileUpload}>
@@ -184,6 +172,9 @@ const LekcijaPage = () => {
                         </form>
                         {isUploading && <div className="spinner"></div>}
                     </div>
+                        </div>
+                    )}
+                    
                 </div>
             )}
         </div>

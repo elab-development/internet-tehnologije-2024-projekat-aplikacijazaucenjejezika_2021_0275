@@ -6,6 +6,7 @@ import useLessons from "./useLessons";
 const LessonsPage = () => {
     const { id } = useParams(); // ID jezika
     const navigate = useNavigate();
+    const userRole = localStorage.getItem("role"); 
 
     const [filters, setFilters] = useState({
         naziv: "",
@@ -120,7 +121,8 @@ const LessonsPage = () => {
                         >
                             <h2>{lesson.naziv}</h2>
                             <p>{lesson.tekst || "Bez opisa"}</p>
-                            <div className="button-group">
+                            {userRole === "profesor" && (
+                                <div className="button-group">
                                 <button
                                     className="edit-button"
                                     onClick={(e) => {
@@ -145,6 +147,8 @@ const LessonsPage = () => {
                                     Obriši
                                 </button>
                             </div>
+                            )}
+                            
                         </li>
                     ))}
                 </ul>
@@ -169,7 +173,8 @@ const LessonsPage = () => {
                 ))}
             </div>
         )}
-            <div className="form-container">
+            {userRole === "profesor" &&
+                <div className="form-container">
                 {editingLesson ? (
                     <form className="edit-lesson-form" onSubmit={handleEditLesson}>
                         <h2>Izmeni lekciju</h2>
@@ -230,6 +235,8 @@ const LessonsPage = () => {
                     </form>
                 )}
             </div>
+            }
+            
         </div>
     );
 };

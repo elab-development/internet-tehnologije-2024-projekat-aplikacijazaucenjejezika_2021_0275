@@ -9,6 +9,7 @@ const LanguagesPage = () => {
     const [editingLanguage, setEditingLanguage] = useState(null); // Stanje za izmenu jezika
     const [updatedLanguage, setUpdatedLanguage] = useState({ naziv: "", skraceni_naziv: "" });
     const navigate = useNavigate();
+    const userRole = localStorage.getItem("role");
 
     useEffect(() => {
         const fetchLanguages = async () => {
@@ -93,77 +94,79 @@ const LanguagesPage = () => {
             <LanguageCard
               key={lang.id}
               lang={lang}
-              onEdit={(lang) => {
-                setEditingLanguage(lang);
-                setUpdatedLanguage({
-                  naziv: lang.naziv,
-                  skraceni_naziv: lang.skraceni_naziv,
-                });
-              }}
-              onDelete={handleDeleteLanguage}
+              onEdit={userRole === "profesor" ? (lang) => {
+                            setEditingLanguage(lang);
+                            setUpdatedLanguage({
+                                naziv: lang.naziv,
+                                skraceni_naziv: lang.skraceni_naziv,
+                            });
+                        } : null}
+              onDelete={userRole === "profesor" ? handleDeleteLanguage : null}
               onNavigate={(id) => navigate(`/languages/${id}/lessons`)}
             />
           ))}
         </div>
 
-    {editingLanguage ? (
-        <form className="add-language-form" onSubmit={handleEditLanguage}>
-            <h2>Izmeni jezik</h2>
-            <input
-                type="text"
-                placeholder="Naziv"
-                value={updatedLanguage.naziv}
-                onChange={(e) =>
-                    setUpdatedLanguage({ ...updatedLanguage, naziv: e.target.value })
-                }
-                className="add-input"
-            />
-            <input
-                type="text"
-                placeholder="Skraćeni naziv"
-                value={updatedLanguage.skraceni_naziv}
-                onChange={(e) =>
-                    setUpdatedLanguage({ ...updatedLanguage, skraceni_naziv: e.target.value })
-                }
-                className="add-input"
-            />
-            <button type="submit" className="add-button">
-                Sačuvaj
-            </button>
-            <button
-                type="button"
-                onClick={() => setEditingLanguage(null)}
-                className="add-button"
-                style={{ backgroundColor: "#dc3545" }} // Opcioni stil za dugme Otkaži
-            >
-                Otkaži
-            </button>
-        </form>
-    ) : (
-        <form className="add-language-form" onSubmit={handleAddLanguage}>
-            <input
-                type="text"
-                placeholder="Naziv"
-                value={newLanguage.naziv}
-                onChange={(e) =>
-                    setNewLanguage({ ...newLanguage, naziv: e.target.value })
-                }
-                className="add-input"
-            />
-            <input
-                type="text"
-                placeholder="Skraćeni naziv"
-                value={newLanguage.skraceni_naziv}
-                onChange={(e) =>
-                    setNewLanguage({ ...newLanguage, skraceni_naziv: e.target.value })
-                }
-                className="add-input"
-            />
-            <button type="submit" className="add-button">
-                Dodaj
-            </button>
-        </form>
-    )}
+        {userRole === "profesor" && (
+                editingLanguage ? (
+                    <form className="add-language-form" onSubmit={handleEditLanguage}>
+                        <h2>Izmeni jezik</h2>
+                        <input
+                            type="text"
+                            placeholder="Naziv"
+                            value={updatedLanguage.naziv}
+                            onChange={(e) =>
+                                setUpdatedLanguage({ ...updatedLanguage, naziv: e.target.value })
+                            }
+                            className="add-input"
+                        />
+                        <input
+                            type="text"
+                            placeholder="Skraćeni naziv"
+                            value={updatedLanguage.skraceni_naziv}
+                            onChange={(e) =>
+                                setUpdatedLanguage({ ...updatedLanguage, skraceni_naziv: e.target.value })
+                            }
+                            className="add-input"
+                        />
+                        <button type="submit" className="add-button">
+                            Sačuvaj
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setEditingLanguage(null)}
+                            className="add-button"
+                            style={{ backgroundColor: "#dc3545" }}
+                        >
+                            Otkaži
+                        </button>
+                    </form>
+                ) : (
+                    <form className="add-language-form" onSubmit={handleAddLanguage}>
+                        <input
+                            type="text"
+                            placeholder="Naziv"
+                            value={newLanguage.naziv}
+                            onChange={(e) =>
+                                setNewLanguage({ ...newLanguage, naziv: e.target.value })
+                            }
+                            className="add-input"
+                        />
+                        <input
+                            type="text"
+                            placeholder="Skraćeni naziv"
+                            value={newLanguage.skraceni_naziv}
+                            onChange={(e) =>
+                                setNewLanguage({ ...newLanguage, skraceni_naziv: e.target.value })
+                            }
+                            className="add-input"
+                        />
+                        <button type="submit" className="add-button">
+                            Dodaj
+                        </button>
+                    </form>
+                )
+            )}
 </div>
 
     );

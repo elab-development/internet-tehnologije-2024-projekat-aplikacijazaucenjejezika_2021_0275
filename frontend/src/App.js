@@ -20,6 +20,7 @@ function App() {
       headers: { Authorization: `Bearer ${token}` }
     }).then(() => {
       localStorage.removeItem('token');
+      localStorage.removeItem('role');
       setToken(null);
       toast.info('Odjavili ste se.');
     });
