@@ -1,9 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { GrLanguage } from "react-icons/gr";
 import './Navbar.css';
 
 const Navbar = ({ isLoggedIn, handleLogout }) => {
+  const navigate = useNavigate();
+
+  const logoutAndRedirect = () => {
+    handleLogout(); 
+    navigate('/'); 
+  };
+  
   return (
     <nav className="navbar">
       <div className="logo">
@@ -23,7 +30,7 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
               <Link to="/languages">Jezici</Link>
             </li>
             <li>
-              <button onClick={handleLogout} className="logout-btn">
+              <button onClick={logoutAndRedirect} className="logout-btn">
                 Odjavi se
               </button>
             </li>
