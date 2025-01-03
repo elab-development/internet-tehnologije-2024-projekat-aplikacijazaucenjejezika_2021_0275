@@ -12,6 +12,12 @@ const LanguagesPage = () => {
     const userRole = localStorage.getItem("role");
 
     useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            navigate("/login");
+            return;
+        }
+
         const fetchLanguages = async () => {
             const response = await fetch("http://localhost:8000/api/languages", {
                 headers: {

@@ -2,31 +2,52 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Breadcrumbs.css';
 
+// Mapa za čitljiva imena ruta
+const segmentTitleMap = {
+  '': 'Početna',
+  'login': 'Prijava',
+  'register': 'Registracija',
+  'translate': 'Prevod',
+  'languages': 'Jezici',
+  'lessons': 'Lekcije',
+  'lekcija': 'Lekcija',
+};
+
 const Breadcrumbs = () => {
   const location = useLocation();
-  const paths = location.pathname.split('/').filter((path) => path);
+
+  // Razbijanje pathname u segmente i uklanjanje praznih segmenata
+  let pathSegments = location.pathname.split('/').filter(Boolean);
+
+  // Ignorisanje segmenata koji su samo brojevi (ID-ovi)
+  pathSegments = pathSegments.filter((segment) => !/^\d+$/.test(segment));
 
   return (
     <nav className="breadcrumbs">
       <ul>
+        {/* Početna stranica (uvek prva) */}
         <li>
-          <Link to="/">Home</Link>
+          <Link to="/">{segmentTitleMap[''] || 'Početna'}</Link>
         </li>
-        {paths.map((path, index) => {
-          const to = `/${paths.slice(0, index + 1).join('/')}`;
-          const isLast = index === paths.length - 1;
+
+        {pathSegments.map((segment, index) => {
+          const url = `/${pathSegments.slice(0, index + 1).join('/')}`;
+          const isLast = index === pathSegments.length - 1;
+
+          // Koristimo mapu za čitljiva imena ili prikazujemo segment direktno
+          const segmentName = segmentTitleMap[segment] || decodeURIComponent(segment);
 
           return (
-            <li key={to}>
+            <li key={url}>
               {!isLast ? (
                 <>
                   <span className="separator">/</span>
-                  <Link to={to}>{decodeURIComponent(path)}</Link>
+                  <Link to={url}>{segmentName}</Link>
                 </>
               ) : (
                 <>
                   <span className="separator">/</span>
-                  <span className="current">{decodeURIComponent(path)}</span>
+                  <span className="current">{segmentName}</span>
                 </>
               )}
             </li>
