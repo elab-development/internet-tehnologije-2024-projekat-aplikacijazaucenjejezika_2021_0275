@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./LessonsPage.css";
 import useLessons from "./useLessons";
+import LessonCard from "./LessonCard";
 
 const LessonsPage = () => {
-    const { id } = useParams(); // ID jezika
+    const { id } = useParams(); 
     const navigate = useNavigate();
     const userRole = localStorage.getItem("role"); 
 
@@ -113,45 +114,32 @@ const LessonsPage = () => {
             {error && <p>Greška: {error}</p>}
             {!loading && lessons.length > 0 && (
                 <ul className="lessons-list">
-                    {lessons.map((lesson) => (
-                        <li
-                            key={lesson.id}
-                            className="lesson-card"
-                            onClick={() => navigate(`/lekcija/${lesson.id}`)}
-                        >
-                            <h2>{lesson.naziv}</h2>
-                            <p>{lesson.tekst || "Bez opisa"}</p>
-                            {userRole === "profesor" && (
-                                <div className="button-group">
-                                <button
-                                    className="edit-button"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setEditingLesson(lesson);
-                                        setUpdatedLesson({
-                                            naziv: lesson.naziv,
-                                            tekst: lesson.tekst,
-                                            language_id: lesson.language_id,
-                                        });
-                                    }}
-                                >
-                                    Izmeni
-                                </button>
-                                <button
-                                    className="delete-button"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleDeleteLesson(lesson.id);
-                                    }}
-                                >
-                                    Obriši
-                                </button>
-                            </div>
-                            )}
-                            
-                        </li>
-                    ))}
-                </ul>
+                {lessons.map((lesson) => (
+                  <LessonCard
+                  key={lesson.id}
+                  lesson={lesson}
+                  onClick={(id) => navigate(`/lekcija/${id}`)}
+                  onEdit={
+                    userRole === "profesor"
+                      ? (lesson) => {
+                          console.log("Editing Lesson:", lesson); // Dodajte log za proveru
+                          setEditingLesson(lesson);
+                          setUpdatedLesson({
+                            naziv: lesson.naziv,
+                            tekst: lesson.tekst,
+                            language_id: lesson.language_id,
+                          });
+                        }
+                      : null
+                  }
+                  onDelete={
+                    userRole === "profesor"
+                      ? (id) => handleDeleteLesson(id)
+                      : null
+                  }
+                />
+              ))}
+            </ul>
             )}
             {pagination && pagination.links && pagination.links.length > 0 && (
             <div className="pagination">
