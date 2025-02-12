@@ -1,0 +1,46 @@
+.lesson-card {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .lesson-details h2 {
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  .lesson-details p {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .lesson-actions .lesson-button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .lesson-button.edit-button {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .lesson-button.edit-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .lesson-button.upload-button {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .lesson-button.upload-button:hover {
+    background-color: #218838;
+  }
+  

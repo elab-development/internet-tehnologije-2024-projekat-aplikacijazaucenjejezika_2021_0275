@@ -1,0 +1,147 @@
+.lesson-detail-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.lesson-detail-container h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.lesson-detail-container p {
+    font-size: 1.2rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.lesson-detail-container button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-right: 10px;
+    transition: background-color 0.3s;
+}
+
+.lesson-detail-container button:hover {
+    background-color: #0056b3;
+}
+
+.slike-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.slike-container img {
+    width: 150px;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.edit-lesson-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.edit-lesson-container h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.edit-lesson-container .form-group {
+    margin-bottom: 15px;
+}
+
+.edit-lesson-container label {
+    display: block;
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.edit-lesson-container input,
+.edit-lesson-container textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.edit-lesson-container button {
+    background-color: #28a745;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-right: 10px;
+    transition: background-color 0.3s;
+}
+
+.edit-lesson-container button:hover {
+    background-color: #218838;
+}
+
+.upload-container {
+    margin-top: 20px;
+}
+
+.upload-container form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.files-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.files-container img {
+    max-width: 200px;
+    height: auto;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.files-container a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.spinner {
+    margin-top: 10px;
+    width: 30px;
+    height: 30px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

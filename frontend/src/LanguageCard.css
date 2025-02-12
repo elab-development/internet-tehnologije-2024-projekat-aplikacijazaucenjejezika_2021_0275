@@ -1,0 +1,56 @@
+/* Opšti stilovi za LanguageCard */
+.language-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+  }
+  
+  .language-card:hover {
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+  }
+  
+  .language-details h2 {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+  
+  .language-details p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #777;
+  }
+  
+  .language-actions .languages-button {
+    padding: 5px 15px;
+    font-size: 14px;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+  }
+  
+  .language-actions .languages-button.edit-button {
+    background-color: #007bff;
+  }
+  
+  .language-actions .languages-button.edit-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .language-actions .languages-button.delete-button {
+    background-color: #dc3545;
+  }
+  
+  .language-actions .languages-button.delete-button:hover {
+    background-color: #c82333;
+  }
+  

@@ -1,0 +1,132 @@
+/* Opšti stilovi za LanguagesPage */
+.languages-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.languages-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+/* Kartice za jezike */
+.language-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.language-card:hover {
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+}
+
+.language-card h2 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.language-card p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #777;
+}
+
+/* Dugmići */
+.languages-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.languages-button:hover {
+    background-color: #0056b3;
+}
+
+/* Forma za dodavanje jezika */
+.add-language-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.add-language-form input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.add-language-form button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-language-form button:hover {
+    background-color: #1e7e34;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+.languages-button {
+    padding: 5px 15px;
+    font-size: 14px;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px; /* Razmak između dugmadi */
+}
+
+.languages-button.edit-button {
+    background-color: #007bff; /* Plava boja za dugme Izmeni */
+}
+
+.languages-button.edit-button:hover {
+    background-color: #0056b3;
+}
+
+.languages-button.delete-button {
+    background-color: #dc3545; /* Crvena boja za dugme Obriši */
+}
+
+.languages-button.delete-button:hover {
+    background-color: #c82333;
+}
