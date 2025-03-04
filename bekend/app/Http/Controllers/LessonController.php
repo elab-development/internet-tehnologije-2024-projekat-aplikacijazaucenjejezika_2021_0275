@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LessonResource;
 use App\Models\Lesson;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class LessonController extends Controller
@@ -132,6 +135,53 @@ class LessonController extends Controller
         $pdf = Pdf::loadView('pdf.lesson', compact('lesson'));
 
         return $pdf->download('lesson-' . $lesson->id . '.pdf');
+    }
+
+    public function enrollUser(Request $request)
+    {
+        $user = Auth::user();
+
+        // Proveri da li je trenutni korisnik profesor
+        if ($user->role !== 'profesor') {
+            return response()->json(['message' => 'Nemate dozvolu za upis učenika.'], 403);
+        }
+
+        // Validacija unosa
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|exists:users,id',
+            'language_id' => 'required|exists:languages,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $student = User::find($request->user_id);
+
+        // Proveri da li korisnik ima ulogu "user"
+        if ($student->role !== 'user') {
+            return response()->json(['message' => 'Samo učenici sa rolom "user" mogu biti upisani.'], 403);
+        }
+
+        // Proveri da li je korisnik već upisan na kurs
+        $exists = DB::table('user_language')
+            ->where('user_id', $request->user_id)
+            ->where('language_id', $request->language_id)
+            ->exists();
+
+        if ($exists) {
+            return response()->json(['message' => 'Korisnik je već upisan na ovaj kurs.'], 409);
+        }
+
+        // Upisivanje korisnika na kurs
+        DB::table('user_language')->insert([
+            'user_id' => $request->user_id,
+            'language_id' => $request->language_id,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return response()->json(['message' => 'Korisnik je uspešno upisan na kurs.'], 201);
     }
 }
 

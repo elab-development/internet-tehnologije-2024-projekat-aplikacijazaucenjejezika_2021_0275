@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./LanguageCard.css";
 
 const LanguageCard = ({
@@ -6,7 +6,10 @@ const LanguageCard = ({
   onEdit,
   onDelete,
   onNavigate,
+  userRole,
+  onEnrollClick 
 }) => {
+
   return (
     <div
       className="language-card"
@@ -18,25 +21,39 @@ const LanguageCard = ({
         <p>{lang.skraceni_naziv}</p>
       </div>
       <div className="language-actions">
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onEdit(lang);
-          }}
-          className="languages-button edit-button"
-        >
-          Izmeni
-        </button>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onDelete(lang.id);
-          }}
-          className="languages-button delete-button"
-        >
-          Obriši
-        </button>
+      {userRole === "profesor" && (
+          <>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onEdit(lang);
+              }}
+              className="languages-button edit-button"
+            >
+              Izmeni
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(lang.id);
+              }}
+              className="languages-button delete-button"
+            >
+              Obriši
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onEnrollClick(lang);
+              }}
+              className="languages-button enroll-button"
+            >
+              Upiši učenika
+            </button>
+          </>
+        )}
       </div>
+
     </div>
   );
 };

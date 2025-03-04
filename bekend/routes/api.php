@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TestMail;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,15 @@ Route::get('/reset-password/{token}', function ($token) {
 
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
+Route::middleware('auth:sanctum')->get('/students', function (Request $request) {
+    if ($request->user()->role !== 'profesor') {
+        return response()->json(['message' => 'Forbidden'], 403);
+    }
+
+    $students = User::where('role', 'user')->get();
+    return response()->json($students);
+});
+
 Route::get('/lessons/{id}', [LessonController::class, 'show'])->middleware('auth:sanctum');
 Route::get('/lessons', [LessonController::class, 'index'])->middleware('auth:sanctum');
 
@@ -44,6 +54,7 @@ Route::middleware(['auth:sanctum', 'role:admin,profesor'])->group(function () {
     Route::post('/lessons', [LessonController::class, 'store']);
     Route::put('/lessons/{id}', [LessonController::class, 'update']);
     Route::delete('/lessons/{id}', [LessonController::class, 'destroy']);
+    Route::post('/lessons/enroll', [LessonController::class, 'enrollUser'])->middleware('role:profesor');
     Route::post('/lessons/{lessonId}/upload', [LessonController::class, 'uploadFile']);
     Route::get('/lessons/{lessonId}/export-pdf', [LessonController::class, 'exportToPDF']);
 });

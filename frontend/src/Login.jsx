@@ -8,7 +8,7 @@ const Login = ({ setToken }) => {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value }); // ...form → Kopira sve prethodne vrednosti forme.
   };
 
   const handleSubmit = async (e) => {

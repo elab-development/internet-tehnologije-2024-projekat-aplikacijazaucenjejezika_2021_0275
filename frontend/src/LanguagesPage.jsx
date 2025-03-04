@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LanguageCard from "./LanguageCard";
 import "./LanguagesPage.css";
+import Select from "react-select";
+
 
 const LanguagesPage = () => {
     const [languages, setLanguages] = useState([]);
@@ -10,6 +12,11 @@ const LanguagesPage = () => {
     const [updatedLanguage, setUpdatedLanguage] = useState({ naziv: "", skraceni_naziv: "" });
     const navigate = useNavigate();
     const userRole = localStorage.getItem("role");
+
+    const [students, setStudents] = useState([]);
+    const [selectedLanguage, setSelectedLanguage] = useState(null);
+    const [selectedStudent, setSelectedStudent] = useState(null);
+
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -31,7 +38,64 @@ const LanguagesPage = () => {
         };
 
         fetchLanguages();
+        if(userRole == 'profesor'){
+            fetchStudents();
+        }
     }, []);
+
+    const fetchStudents = async () => {
+        try {
+            const response = await fetch("http://localhost:8000/api/students", {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setStudents(data);
+            } else {
+                console.error("Greška pri dobavljanju učenika:", await response.json());
+            }
+        } catch (error) {
+            console.error("Greška pri povezivanju sa serverom:", error);
+        }
+    };
+
+    const openEnrollModal = (language) => {
+        setSelectedLanguage(language);
+        setSelectedStudent(null);
+    };
+
+    const closeEnrollModal = () => {
+        setSelectedLanguage(null);
+    };
+
+    const handleEnrollStudent = async () => {
+        if (!selectedStudent) return;
+
+        try {
+            const response = await fetch("http://localhost:8000/api/lessons/enroll", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                body: JSON.stringify({
+                    user_id: selectedStudent.value,
+                    language_id: selectedLanguage.id,
+                }),
+            });
+
+            if (response.ok) {
+                console.log("Učenik uspešno upisan!");
+                closeEnrollModal();
+            } else {
+                console.error("Greška pri upisu učenika:", await response.json());
+            }
+        } catch (error) {
+            console.error("Greška pri slanju zahteva:", error);
+        }
+    };
 
     const handleAddLanguage = async (event) => {
         event.preventDefault();
@@ -109,6 +173,8 @@ const LanguagesPage = () => {
                         } : null}
               onDelete={userRole === "profesor" ? handleDeleteLanguage : null}
               onNavigate={(id) => navigate(`/languages/${id}/lessons`)}
+              userRole={userRole}
+              onEnrollClick={userRole === "profesor" ? openEnrollModal : null}
             />
           ))}
         </div>
@@ -172,6 +238,28 @@ const LanguagesPage = () => {
                         </button>
                     </form>
                 )
+            )}
+
+            {selectedLanguage && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <h3>Upis učenika u {selectedLanguage.naziv}</h3>
+                        <Select
+                            options={students.map((s) => ({ value: s.id, label: s.name + " (" + s.email+")" }))}
+                            onChange={(selectedOption) => setSelectedStudent(selectedOption)}
+                            placeholder="Pretraži učenike..."
+                            isSearchable
+                        />
+                        <div className="modal-actions">
+                            <button onClick={handleEnrollStudent} className="confirm-button" disabled={!selectedStudent}>
+                                Potvrdi
+                            </button>
+                            <button onClick={closeEnrollModal} className="cancel-button">
+                                Otkaži
+                            </button>
+                        </div>
+                    </div>
+                </div>
             )}
 </div>
 

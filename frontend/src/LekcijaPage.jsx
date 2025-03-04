@@ -23,7 +23,7 @@ const LekcijaPage = () => {
                 setUpdatedLesson({
                     naziv: data.data.naziv,
                     tekst: data.data.tekst,
-                    language_id: data.data.language.id, // Obavezno proverite ovo polje
+                    language_id: data.data.language.id, 
                 });
             } else {
                 console.error("Failed to fetch lesson.");
