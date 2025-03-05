@@ -124,4 +124,21 @@ class AuthController extends Controller
             ? response()->json(['message' => 'Password reset successfully.'])
             : response()->json(['message' => 'Failed to reset password.'], 500);
     }
+
+    public function index()
+    {
+        return response()->json(User::all());
+    }
+
+    public function updateRole(Request $request, User $user)
+    {
+        $request->validate([
+            'role' => 'required|string|in:admin,user,profesor',
+        ]);
+
+        $user->role = $request->role;
+        $user->save();
+
+        return response()->json(['message' => 'Role updated successfully', 'user' => $user]);
+    }
 }

@@ -7,6 +7,8 @@ import Breadcrumbs from './Breadcrumbs';
 const Navbar = ({ isLoggedIn, handleLogout }) => {
   const navigate = useNavigate();
 
+  const role = localStorage.getItem('role');
+
   const logoutAndRedirect = () => {
     handleLogout(); 
     navigate('/'); 
@@ -30,7 +32,12 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
               </li>
               <li>
                 <Link to="/languages">Jezici</Link>
-              </li>
+              </li>           
+              {role === "admin" && (
+                <li>
+                  <Link to="/adminPage">Admin page</Link>
+                </li>
+              )}
               <li>
                 <button onClick={logoutAndRedirect} className="logout-btn">
                   Odjavi se

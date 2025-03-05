@@ -27,6 +27,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/users', [AuthController::class, 'index'])->middleware('role:admin');
+    Route::patch('/users/{user}/role', [AuthController::class, 'updateRole'])->middleware('role:admin');
+});
+
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
