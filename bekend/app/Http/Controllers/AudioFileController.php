@@ -35,20 +35,30 @@ class AudioFileController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'naziv' => 'required|string|max:255',
-            'putanja' => 'required|string|max:255',
+            'file' => 'required|file|mimes:mp3,wav,ogg|max:10240',
             'lesson_id' => 'required|exists:lessons,id',
         ]);
-
+    
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-
-        $audioFile = AudioFile::create($request->all());
-
-        return response()->json([
-            'message' => 'Audio file created successfully.',
-            'audio_file' => new AudioFileResource($audioFile),
-        ], 201);
+    
+        if ($request->hasFile('file')) {
+            $path = $request->file('file')->store('audio_files', 'public');
+    
+            $audioFile = AudioFile::create([
+                'naziv' => $request->naziv,
+                'putanja' => $path,
+                'lesson_id' => $request->lesson_id,
+            ]);
+    
+            return response()->json([
+                'message' => 'Audio file uploaded successfully.',
+                'audio_file' => new AudioFileResource($audioFile),
+            ], 201);
+        }
+    
+        return response()->json(['message' => 'File upload failed.'], 500);
     }
 
     /**

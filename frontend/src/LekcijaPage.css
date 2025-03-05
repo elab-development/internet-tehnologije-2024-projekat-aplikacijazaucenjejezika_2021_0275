@@ -204,3 +204,45 @@
 .custom-checkbox input:checked ~ .label-text {
     color: #4CAF50;
 }
+
+.audio-container {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.audio-container h2 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.audio-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.audio-container li {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.audio-container audio {
+    flex: 1;
+    outline: none;
+}
+
+.audio-container p {
+    margin-left: 15px;
+    font-size: 14px;
+    color: #666;
+}
+

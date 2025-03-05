@@ -63,6 +63,7 @@ Route::middleware(['auth:sanctum', 'role:admin,profesor'])->group(function () {
     Route::delete('/lessons/{id}', [LessonController::class, 'destroy']);
     Route::post('/lessons/enroll', [LessonController::class, 'enrollUser'])->middleware('role:profesor');
     Route::post('/lessons/{lessonId}/upload', [LessonController::class, 'uploadFile']);
+    Route::post('/lessons/{lessonId}/audio', [AudioFileController::class, 'store']);
     Route::get('/lessons/{lessonId}/export-pdf', [LessonController::class, 'exportToPDF']);
 });
 

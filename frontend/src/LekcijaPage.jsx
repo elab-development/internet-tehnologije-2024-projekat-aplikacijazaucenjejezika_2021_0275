@@ -43,6 +43,34 @@ const LekcijaPage = () => {
         localStorage.setItem(`lesson_completed_${lessonId}`, newValue.toString());
     };
 
+    const handleAudioUpload = async (event) => {
+        event.preventDefault();
+    
+        const formData = new FormData();
+        formData.append("file", event.target.audioFile.files[0]);
+        formData.append("naziv", event.target.audioFile.files[0].name);
+        formData.append("lesson_id", lessonId);
+
+    
+        const response = await fetch(`http://localhost:8000/api/lessons/${lessonId}/audio`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            body: formData,
+        });
+    
+        if (response.ok) {
+            const data = await response.json();
+            setLesson((prevLesson) => ({
+                ...prevLesson,
+                audioFiles: [...(prevLesson.audioFiles || []), data.audio_file],
+            }));
+        } else {
+            console.error("Error uploading audio file");
+        }
+    };
+
 
     const handleSave = async (event) => {
         event.preventDefault();
@@ -170,20 +198,48 @@ const LekcijaPage = () => {
                         )}
                     </div>
 
+                    <div className="audio-container">
+                    <h2>Audio fajlovi</h2>
+                    {lesson.audio_files && lesson.audio_files.length > 0 ? (
+                        <ul>
+                            {lesson.audio_files.map((file, index) => (
+                                <li key={index}>
+                                    <audio controls>
+                                        <source src={file.putanja} type="audio/mpeg" />
+                                        Vaš pretraživač ne podržava audio element.
+                                    </audio>
+                                    <p>{file.naziv}</p>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>Trenutno nema audio fajlova.</p>
+                    )}
+                </div>
+
+
                     {userRole === "profesor" && (
                         <div> 
-                            <button onClick={() => setEditing(true)}>Izmeni</button>
-                    <div className="upload-container">
-                        <h2>Dodaj fajl/sliku</h2>
-                        <form onSubmit={handleFileUpload}>
-                            <input type="file" name="file" id="file" />
-                            <button type="submit" disabled={isUploading}>
-                                {isUploading ? "Dodavanje..." : "Dodaj"}
-                            </button>
-                        </form>
-                        {isUploading && <div className="spinner"></div>}
-                    </div>
-                        </div>
+                                <button onClick={() => setEditing(true)}>Izmeni</button>
+                            <div className="upload-container">
+                                <h2>Dodaj fajl/sliku</h2>
+                                <form onSubmit={handleFileUpload}>
+                                    <input type="file" name="file" id="file" />
+                                    <button type="submit" disabled={isUploading}>
+                                        {isUploading ? "Dodavanje..." : "Dodaj"}
+                                    </button>
+                                </form>
+                                {isUploading && <div className="spinner"></div>}
+                            </div>
+
+                            <div className="upload-container">
+                                <h2>Dodaj audio fajl</h2>
+                                <form onSubmit={handleAudioUpload}>
+                                    <input type="file" name="audioFile" accept="audio/*" />
+                                    <button type="submit">Dodaj audio</button>
+                                </form>
+                            </div>
+                                </div>
                     )}
 
                     {userRole === "user" && (

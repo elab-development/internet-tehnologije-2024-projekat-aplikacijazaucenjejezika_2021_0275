@@ -17,7 +17,7 @@ class AudioFileResource extends JsonResource
         return [
             'id' => $this->id,
             'naziv' => $this->naziv,
-            'putanja' => $this->putanja,
+            'putanja' => asset("storage/{$this->putanja}"),
             'lekcija' => [
                 'id' => $this->lekcija->id,
                 'naziv' => $this->lekcija->naziv,
