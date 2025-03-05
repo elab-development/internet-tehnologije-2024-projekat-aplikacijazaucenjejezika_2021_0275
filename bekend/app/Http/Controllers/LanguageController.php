@@ -34,6 +34,22 @@ class LanguageController extends Controller
         return response()->json($languages);
     }
 
+    public function allLanguages()
+    {
+        return response()->json(Language::all());
+    }
+
+    public function studentsPerLanguage()
+    {
+        $studentsPerLanguage = DB::table('user_language')
+            ->join('languages', 'user_language.language_id', '=', 'languages.id')
+            ->select('languages.naziv as language', DB::raw('count(user_language.user_id) as student_count'))
+            ->groupBy('languages.naziv')
+            ->get();
+    
+        return response()->json($studentsPerLanguage);
+    }
+
     public function addLanguage(Request $request)
     {
         $user = Auth::user();

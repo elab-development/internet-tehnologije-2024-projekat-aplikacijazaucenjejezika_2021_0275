@@ -3,7 +3,6 @@ import "./AdminPage.css";
 
 const AdminPage = () => {
     const [users, setUsers] = useState([]);
-    const [currentUser, setCurrentUser] = useState(null);
 
     useEffect(() => {
         fetch("http://127.0.0.1:8000/api/users", {
@@ -18,6 +17,7 @@ const AdminPage = () => {
         .then(data => setUsers(data))
         .catch(error => console.error("Error fetching users:", error));
     }, []);
+
     const handleRoleChange = (userId, newRole) => {
         fetch(`http://127.0.0.1:8000/api/users/${userId}/role`, {
             method: "PATCH",

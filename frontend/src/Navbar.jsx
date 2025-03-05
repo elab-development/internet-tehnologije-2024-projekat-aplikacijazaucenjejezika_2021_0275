@@ -34,9 +34,14 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
                 <Link to="/languages">Jezici</Link>
               </li>           
               {role === "admin" && (
+                <>
                 <li>
                   <Link to="/adminPage">Admin page</Link>
                 </li>
+                <li>
+                  <Link to="/statistics">Statistike</Link>
+                </li>
+                </>
               )}
               <li>
                 <button onClick={logoutAndRedirect} className="logout-btn">

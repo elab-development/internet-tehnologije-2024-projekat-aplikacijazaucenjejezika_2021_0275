@@ -141,4 +141,10 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Role updated successfully', 'user' => $user]);
     }
+
+    public function allProfessors()
+    {
+        $professors = User::where('role', 'profesor')->get();
+        return response()->json($professors);
+    }
 }

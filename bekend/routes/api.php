@@ -30,6 +30,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/users', [AuthController::class, 'index'])->middleware('role:admin');
     Route::patch('/users/{user}/role', [AuthController::class, 'updateRole'])->middleware('role:admin');
+    Route::get('/professors', [AuthController::class, 'allProfessors']);
+
 });
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -44,7 +46,7 @@ Route::get('/reset-password/{token}', function ($token) {
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
 Route::middleware('auth:sanctum')->get('/students', function (Request $request) {
-    if ($request->user()->role !== 'profesor') {
+    if ($request->user()->role === 'user') {
         return response()->json(['message' => 'Forbidden'], 403);
     }
 
@@ -66,7 +68,9 @@ Route::middleware(['auth:sanctum', 'role:admin,profesor'])->group(function () {
 
 Route::middleware(['auth:sanctum', 'role:admin,user,profesor'])->group(function () {
     Route::get('/languages', [LanguageController::class, 'index']);
+    Route::get('/allLanguages', [LanguageController::class, 'allLanguages']);
     Route::get('/languages/{id}', [LanguageController::class, 'show']);
+    Route::get('/students-per-language', [LanguageController::class, 'studentsPerLanguage']);
     Route::post('/languages/add', [LanguageController::class, 'addLanguage']);
     Route::post('/languages', [LanguageController::class, 'store']);
     Route::put('/languages/{id}', [LanguageController::class, 'update']);

@@ -11,6 +11,7 @@ import LessonsPage from './LessonsPage';
 import LekcijaPage from './LekcijaPage';
 import TranslationPage from './TranslationPage';
 import AdminPage from './AdminPage';
+import StatisticsPage from './StatisticsPage';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
@@ -39,6 +40,7 @@ function App() {
         <Route path="/languages" element={<LanguagesPage />} />
         <Route path="/languages/:id/lessons" element={<LessonsPage />} />
         <Route path="/lekcija/:lessonId" element={<LekcijaPage />} />
+        <Route path="/statistics" element={<StatisticsPage />} />
         <Route path="/" element={<Home />} />
       </Routes>
       <ToastContainer />
