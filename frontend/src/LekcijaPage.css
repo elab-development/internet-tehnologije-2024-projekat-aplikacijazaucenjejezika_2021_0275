@@ -145,3 +145,62 @@
         transform: rotate(360deg);
     }
 }
+
+.lesson-completion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.custom-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+}
+
+.custom-checkbox input {
+    display: none;
+}
+
+.custom-checkbox .slider {
+    width: 50px;
+    height: 24px;
+    background-color: #ccc;
+    border-radius: 12px;
+    position: relative;
+    transition: background-color 0.3s ease;
+}
+
+.custom-checkbox .slider::before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    top: 50%;
+    left: 3px;
+    transform: translateY(-50%);
+    transition: 0.3s ease;
+}
+
+.custom-checkbox input:checked + .slider {
+    background-color: #4CAF50;
+}
+
+.custom-checkbox input:checked + .slider::before {
+    left: 26px;
+}
+
+.label-text {
+    transition: color 0.3s ease;
+}
+
+.custom-checkbox input:checked ~ .label-text {
+    color: #4CAF50;
+}

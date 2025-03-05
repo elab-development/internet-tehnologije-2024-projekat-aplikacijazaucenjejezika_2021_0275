@@ -8,8 +8,15 @@ const LessonCard = ({
   onDelete,
   onClick
 }) => {
+
+  const userRole = localStorage.getItem("role");
+  const isLessonCompleted = localStorage.getItem(`lesson_completed_${lesson.id}`) === "true";
+
   return (
-    <div className="lesson-card" onClick={() => onClick && onClick(lesson.id)}>
+    <div 
+      className={`lesson-card ${userRole === "user" && isLessonCompleted ? "completed-lesson" : ""}`} 
+      onClick={() => onClick && onClick(lesson.id)}
+    >
       <h2>{lesson.naziv}</h2>
       <p>{lesson.tekst || "Bez opisa"}</p>
       <div className="lesson-actions">

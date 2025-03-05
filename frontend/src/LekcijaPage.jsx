@@ -10,6 +10,10 @@ const LekcijaPage = () => {
     const [isUploading, setIsUploading] = useState(false);
     const userRole = localStorage.getItem("role");
 
+    const [isLessonCompleted, setIsLessonCompleted] = useState(
+        localStorage.getItem(`lesson_completed_${lessonId}`) === "true"
+    );
+
     useEffect(() => {
         const fetchLesson = async () => {
             const response = await fetch(`http://localhost:8000/api/lessons/${lessonId}`, {
@@ -32,6 +36,13 @@ const LekcijaPage = () => {
     
         fetchLesson();
     }, [lessonId]);
+
+    const handleCheckboxChange = () => {
+        const newValue = !isLessonCompleted;
+        setIsLessonCompleted(newValue);
+        localStorage.setItem(`lesson_completed_${lessonId}`, newValue.toString());
+    };
+
 
     const handleSave = async (event) => {
         event.preventDefault();
@@ -172,6 +183,20 @@ const LekcijaPage = () => {
                         </form>
                         {isUploading && <div className="spinner"></div>}
                     </div>
+                        </div>
+                    )}
+
+                    {userRole === "user" && (
+                        <div className="lesson-completion">
+                            <label className="custom-checkbox">
+                                <input
+                                    type="checkbox"
+                                    checked={isLessonCompleted}
+                                    onChange={handleCheckboxChange}
+                                />
+                                <span className="slider"></span>
+                                <span className="label-text">Pređena</span>
+                            </label>
                         </div>
                     )}
                     
