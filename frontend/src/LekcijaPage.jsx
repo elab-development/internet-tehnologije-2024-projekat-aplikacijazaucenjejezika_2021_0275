@@ -64,7 +64,7 @@ const LekcijaPage = () => {
             const data = await response.json();
             setLesson((prevLesson) => ({
                 ...prevLesson,
-                audioFiles: [...(prevLesson.audioFiles || []), data.audio_file],
+                audio_files: [...(prevLesson.audio_files  || []), data.audio_file],
             }));
         } else {
             console.error("Error uploading audio file");

@@ -27,12 +27,16 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
 
           {isLoggedIn ? (
             <>
-              <li>
-                <Link to="/translate">Prevod</Link>
-              </li>
-              <li>
-                <Link to="/languages">Jezici</Link>
-              </li>           
+            {role !== "admin" && (
+                <>
+                  <li>
+                    <Link to="/translate">Prevod</Link>
+                  </li>
+                  <li>
+                    <Link to="/languages">Jezici</Link>
+                  </li>
+                </>
+              )}
               {role === "admin" && (
                 <>
                 <li>
