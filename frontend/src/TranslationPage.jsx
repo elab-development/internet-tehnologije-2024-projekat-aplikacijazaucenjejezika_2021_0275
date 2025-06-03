@@ -8,6 +8,42 @@ const TranslationPage = () => {
     const [translatedText, setTranslatedText] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [detectedLanguage, setDetectedLanguage] = useState(null);
+    const [detecting, setDetecting] = useState(false);
+
+    const detectLanguage = async (inputText) => {
+        if (!inputText.trim()) {
+            setDetectedLanguage(null);
+            return;
+        }
+
+        setDetecting(true);
+        try {
+            const response = await fetch(
+                `https://api.api-ninjas.com/v1/textlanguage?text=${encodeURIComponent(inputText)}`,
+                {
+                    headers: {
+                        "X-Api-Key": "4h2986qFg1qz+Bvqvp+2sw==94wq33Syl8nF9NnS",
+                    },
+                }
+            );
+            const data = await response.json();
+            setDetectedLanguage(data);
+        } catch (err) {
+            console.error("Greška pri detekciji jezika:", err);
+            setDetectedLanguage(null);
+        } finally {
+            setDetecting(false);
+        }
+    };
+
+    const handleTextChange = (e) => {
+        setText(e.target.value);
+    };
+
+    const handleDetectClick = () => {
+        detectLanguage(text);
+    };
 
     const handleTranslate = async (e) => {
         e.preventDefault();
@@ -44,9 +80,19 @@ const TranslationPage = () => {
                 <textarea
                     placeholder="Unesite tekst za prevod..."
                     value={text}
-                    onChange={(e) => setText(e.target.value)}
+                    onChange={handleTextChange}
                     required
                 />
+                <button type="button" onClick={handleDetectClick}>
+                    Detektuj jezik
+                </button>
+                {detecting && <p>Detekcija jezika...</p>}
+                {detectedLanguage && (
+                    <p>
+                        Detektovani jezik: <strong>{detectedLanguage.language}</strong> (
+                        {detectedLanguage.iso})
+                    </p>
+                )}
                 <div className="select-group">
                     <select value={source} onChange={(e) => setSource(e.target.value)}>
                         <option value="en">Engleski</option>
