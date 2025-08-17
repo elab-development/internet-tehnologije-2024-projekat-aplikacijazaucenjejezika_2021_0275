@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./LessonsPage.css";
 import useLessons from "./useLessons";
@@ -7,7 +7,7 @@ import LessonCard from "./LessonCard";
 const LessonsPage = () => {
     const { id } = useParams(); 
     const navigate = useNavigate();
-    const userRole = localStorage.getItem("role"); 
+    const userRole = localStorage.getItem("role");
 
     const [filters, setFilters] = useState({
         naziv: "",
@@ -17,10 +17,30 @@ const LessonsPage = () => {
         per_page: 10,
     });
 
-    const { lessons, pagination, loading, error } = useLessons(filters);
+    const apiFilters = useMemo(
+        () => ({
+            naziv: filters.naziv,
+            language_id: filters.language_id,
+            page: filters.page,
+            per_page: filters.per_page,
+        }),
+        [filters.naziv, filters.language_id, filters.page, filters.per_page]
+    );
+
+    const { lessons, pagination, loading, error } = useLessons(apiFilters );
     const [newLesson, setNewLesson] = useState({ naziv: "", tekst: "" });
     const [editingLesson, setEditingLesson] = useState(null);
     const [updatedLesson, setUpdatedLesson] = useState({ naziv: "", tekst: "" });
+
+    const clientFilteredLessons = useMemo(() => {
+        return lessons.filter((lesson) => {
+            const predjena = filters.predjena;
+            if (predjena === "" || predjena == null) return true;
+
+            const isCompleted = localStorage.getItem(`lesson_completed_${lesson.id}`) === "true";
+            return predjena === 1 ? isCompleted : !isCompleted; // striktno: 1 => true, 0 => false
+        });
+    }, [lessons, filters.predjena]);
 
     const handleFilterChange = (e) => {
         const { name, value } = e.target;
@@ -102,27 +122,33 @@ const LessonsPage = () => {
                 <select
                     name="predjena"
                     value={filters.predjena}
-                    onChange={handleFilterChange}
+                    onChange={(e) => {
+                        const v = e.target.value;
+                        setFilters((prev) => ({
+                            ...prev,
+                            predjena: v === "" ? "" : Number(v), // "" | 1 | 0
+                            page: 1
+                        }));
+                    }}
                 >
                     <option value="">Svi</option>
-                    <option value="true">Pređena</option>
-                    <option value="false">Nije pređena</option>
+                    <option value={1}>Pređena</option>
+                    <option value={0}>Nije pređena</option>
                 </select>
             </div>
 
             {loading && <p>Učitavanje...</p>}
             {error && <p>Greška: {error}</p>}
-            {!loading && lessons.length > 0 && (
+            {!loading && clientFilteredLessons.length > 0 && (
                 <ul className="lessons-list">
-                {lessons.map((lesson) => (
-                  <LessonCard
-                  key={lesson.id}
-                  lesson={lesson}
-                  onClick={(id) => navigate(`/lekcija/${id}`)}
+                    {clientFilteredLessons.map((lesson) => (
+                        <LessonCard
+                            key={lesson.id}
+                            lesson={lesson}
+                            onClick={(id) => navigate(`/lekcija/${id}`)}
                   onEdit={
                     userRole === "profesor"
                       ? (lesson) => {
-                          console.log("Editing Lesson:", lesson); // Dodajte log za proveru
                           setEditingLesson(lesson);
                           setUpdatedLesson({
                             naziv: lesson.naziv,
@@ -132,11 +158,7 @@ const LessonsPage = () => {
                         }
                       : null
                   }
-                  onDelete={
-                    userRole === "profesor"
-                      ? (id) => handleDeleteLesson(id)
-                      : null
-                  }
+                  onDelete={userRole === "profesor" ? (id) => handleDeleteLesson(id) : null}
                 />
               ))}
             </ul>
